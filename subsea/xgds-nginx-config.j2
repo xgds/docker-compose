@@ -1,0 +1,51 @@
+server {
+  server_name _;
+  client_max_body_size 10M;
+  
+  listen 443 ssl http2 default_server;
+  listen [::]:443 ssl http2 default_server;
+
+  ssl_certificate       /usr/local/ssl/xgds.fullbundle;
+  ssl_certificate_key   /usr/local/ssl/xgds.key;
+  ssl_dhparam           /usr/local/ssl/dhparam.pem;
+  access_log            /var/log/nginx/proxy.access.log;
+
+  location /sse/ {
+    proxy_set_header          Host $host;
+    proxy_set_header          X-Real-IP $remote_addr;
+    proxy_set_header          X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header          X-Forwarded-Proto $scheme;
+    proxy_http_version        1.1;
+    chunked_transfer_encoding off;
+    proxy_buffering           off;
+    proxy_cache               off;
+    proxy_pass                http://localhost:{{ nginx_sse_port }}/;
+    proxy_read_timeout        90;
+    proxy_redirect            http://localhost:{{ nginx_sse_port }} http://localhost;
+  }
+
+  location / {
+    proxy_set_header          Host $host;
+    proxy_set_header          X-Real-IP $remote_addr;
+    proxy_set_header          X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header          X-Forwarded-Proto $scheme;
+    proxy_pass                http://localhost:{{ apache_http_port }};
+    proxy_read_timeout        90;
+    proxy_redirect            http://localhost:{{ apache_http_port }} http://localhost;
+  }
+
+  location /geoserver/ {
+    proxy_set_header          Host $host;
+    proxy_set_header          X-Real-IP $remote_addr;
+    proxy_set_header          X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header          X-Forwarded-Proto $scheme;
+    proxy_pass                http://localhost:{{ nginx_geoserver_port }};
+    proxy_read_timeout        90;
+    proxy_redirect            http://localhost:{{ nginx_geoserver_port }} http://localhost;
+  }
+}
+
+server {
+   listen 80;
+   return 301 https://$host$request_uri;
+}

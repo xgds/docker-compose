@@ -1,0 +1,19 @@
+version: "2.0"
+services:
+  subsea:
+    container_name: xgds-docker-compose
+    hostname: xgds-subsea
+    ports:
+        - "80:80"
+        - "3306:3306"
+        - "7500:7500"
+        - "222:22"
+        - "443:443"
+        - "3001:3001"
+        - "5000:5000"
+        - "5984:5984"
+        - "8080:8080"
+        - "8181:8181"
+        - "9090:9090"
+        - "9191:9191"
+    build: ./subsea

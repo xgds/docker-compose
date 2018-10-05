@@ -1,0 +1,14 @@
+- hosts: 127.0.0.1
+  connection: local
+  vars_files:
+  - variables.yml
+  tasks:
+  - name: Generate Django secret key
+    command: python -c "import random; print ''.join([random.SystemRandom().choice('abcdef0123456789') for i in range(64)])"
+    register: secret_key
+
+  - name: create development friendly settings.py file
+    template:
+      src:  /settings-template.j2
+      dest: "{{source_root}}/xgds_{{xgds_sitename}}/settings.py"
+      force: yes

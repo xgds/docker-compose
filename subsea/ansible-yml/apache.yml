@@ -1,0 +1,48 @@
+- hosts: 127.0.0.1
+  connection: local
+  vars_files:
+    - variables.yml
+  tasks:
+    - name: enable mod_wsgi
+      apache2_module: name=wsgi state=present
+
+    - name: enable mod_proxy
+      apache2_module: name=proxy state=present
+
+    - name: enable mod_proxy_http
+      apache2_module: name=proxy_http state=present
+        
+    - name: enable auth_form
+      apache2_module: name=auth_form state=present
+
+    - name: enable headers
+      apache2_module: name=headers state=present
+
+    - name: enable request
+      apache2_module: name=request state=present
+        
+    - name: enable session_cookie
+      apache2_module: name=session_cookie state=present
+
+    - name: create apache config file
+      template:
+        src:  /xgds-apache-config.j2
+        dest: /etc/apache2/sites-available/xgds_{{xgds_sitename}}.conf
+      when: base_only is not defined
+
+    - lineinfile:
+        name: /etc/apache2/ports.conf
+        regexp: '^Listen 80$'
+        line: 'Listen {{apache_http_port}}'
+
+    - name: Disable default site
+      command: a2dissite 000-default.conf
+      args:
+        removes: /etc/apache2/sites-enabled/000-default.conf
+      when: base_only is not defined
+
+    - name: Enable site xgds_{{xgds_sitename}}
+      command: a2ensite xgds_{{xgds_sitename}}
+      args:
+        creates: /etc/apache2/sites-enabled/xgds_{{xgds_sitename}}.conf
+      when: base_only is not defined
