@@ -3,6 +3,10 @@
   vars_files:
     - variables.yml
   tasks:
+  - group:
+      name: ssl-cert
+      state: present
+
   - copy:
       src:  /ssl
       dest: /usr/local

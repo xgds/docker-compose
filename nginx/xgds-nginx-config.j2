@@ -10,28 +10,14 @@ server {
   ssl_dhparam           /usr/local/ssl/dhparam.pem;
   access_log            /var/log/nginx/proxy.access.log;
 
-  location /sse/ {
-    proxy_set_header          Host $host;
-    proxy_set_header          X-Real-IP $remote_addr;
-    proxy_set_header          X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header          X-Forwarded-Proto $scheme;
-    proxy_http_version        1.1;
-    chunked_transfer_encoding off;
-    proxy_buffering           off;
-    proxy_cache               off;
-    proxy_pass                http://localhost:{{ nginx_sse_port }}/;
-    proxy_read_timeout        90;
-    proxy_redirect            http://localhost:{{ nginx_sse_port }} http://localhost;
-  }
-
   location / {
     proxy_set_header          Host $host;
     proxy_set_header          X-Real-IP $remote_addr;
     proxy_set_header          X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header          X-Forwarded-Proto $scheme;
-    proxy_pass                http://localhost:{{ apache_http_port }};
+    proxy_pass                http://xgds:{{ apache_http_port }};
     proxy_read_timeout        90;
-    proxy_redirect            http://localhost:{{ apache_http_port }} http://localhost;
+    proxy_redirect            http://xgds:{{ apache_http_port }} http://xgds;
   }
 
   location /geoserver/ {
@@ -39,9 +25,9 @@ server {
     proxy_set_header          X-Real-IP $remote_addr;
     proxy_set_header          X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header          X-Forwarded-Proto $scheme;
-    proxy_pass                http://localhost:{{ nginx_geoserver_port }};
+    proxy_pass                http://geoserver:{{ nginx_geoserver_port }};
     proxy_read_timeout        90;
-    proxy_redirect            http://localhost:{{ nginx_geoserver_port }} http://localhost;
+    proxy_redirect            http://geoserver:{{ nginx_geoserver_port }} http://geoserver;
   }
 }
 

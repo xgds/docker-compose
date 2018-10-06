@@ -2,7 +2,8 @@ FROM phusion/baseimage
 
 RUN  apt-get update
 RUN  apt-get install -y software-properties-common
-RUN  apt-add-repository ppa:ansible/ansible
+RUN  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
+RUN  apt-add-repository "deb http://ppa.launchpad.net/ansible/ansible/ubuntu bionic main"
 RUN  apt-get update
 RUN  apt-get install -y \
      git        \
@@ -15,7 +16,6 @@ RUN  apt-get install -y \
      mariadb-client      \
      python-mysqldb      \
      libmariadb-client-lgpl-dev \
-     nginx       \
      ansible     \
      python-gdal \
      memcached   \
@@ -50,7 +50,6 @@ COPY . /
 WORKDIR /ansible-yml
 RUN     ansible-playbook --connection=local apache.yml
 RUN     ansible-playbook --connection=local mysql.yml
-RUN     ansible-playbook --connection=local nginx.yml
 RUN     ansible-playbook --connection=local xgds.yml
 
 RUN  chmod -R 755 /root
@@ -63,8 +62,6 @@ RUN  mkdir /etc/service/mysql
 ADD  run-scripts/run-mysql.sh /etc/service/mysql/run
 RUN  mkdir /etc/service/apache
 ADD  run-scripts/run-apache.sh /etc/service/apache/run
-RUN  mkdir /etc/service/nginx
-ADD  run-scripts/run-nginx.sh /etc/service/nginx/run
 
 WORKDIR /
 RUN  /sbin/my_init & \
@@ -78,4 +75,3 @@ RUN  /sbin/my_init & \
 RUN  apt-get clean && \
      rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 CMD  /sbin/my_init
-
