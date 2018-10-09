@@ -4,6 +4,12 @@ services:
     build: ./subsea
     ports:
       - "222:22"
+    # ===================================
+    # if you want to develop locally, 
+    # uncomment the two lines below
+    # ===================================
+    # volumes:
+    #   - ./xgds_subsea:/root/xgds_subsea
 
   nginx:
     build: ./nginx

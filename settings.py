@@ -1,0 +1,71 @@
+# __BEGIN_LICENSE__
+# Copyright (c) 2015, United States Government, as represented by the
+# Administrator of the National Aeronautics and Space Administration.
+# All rights reserved.
+#
+# The xGDS platform is licensed under the Apache License, Version 2.0
+# (the "License"); you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+# http://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software distributed
+# under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+# CONDITIONS OF ANY KIND, either express or implied. See the License for the
+# specific language governing permissions and limitations under the License.
+# __END_LICENSE__
+
+"""
+settings.py -- Local site settings
+
+Override in this what you wish.  By default it simply imports the
+site default settings and overrides nothing.
+
+This file should *not* be checked into git.
+"""
+
+import sys
+
+from siteSettings import *
+
+# Make this unique, and don't share it with anybody.  Used by Django's
+# cookie-based authentication mechanism. If you used Ansible to install xGDS it
+# created this key during setup.
+SECRET_KEY = '0f10ee9f159af155e6390bfaceb9697a42f57164887c56d1f2246c335559bb8f'
+
+XGDS_MAP_SERVER_MAP_API_KEY = ""
+
+PYRAPTORD_SERVICE = True
+GEOCAM_TRACK_SERVER_TRACK_PROVIDER = True
+
+# We allow connections from anywhere.  If you want to restrict more, change
+# next line to an array of allowable hostnames or IPs.
+ALLOWED_HOSTS = ["*"]
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.mysql',
+        'NAME': 'xgds_subsea',
+        'USER': 'root',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '3306',
+    }
+}
+
+# NOTE: Configuration below is for a development server.  Uncomment the block
+#       below this one and tune for your production config as needed.  Note that the
+#       email backend line MUST be uncommented (and set to a valid server) for outgoing
+#       email to actually get sent.  By default it is just written to a file in /tmp
+#       (see siteSettings.py).
+
+SERVER_ROOT_URL = 'http://localhost/'
+
+GEOCAM_UTIL_SECURITY_ENABLED = True
+GEOCAM_UTIL_SECURITY_SSL_REQUIRED_BY_DEFAULT = False
+GEOCAM_UTIL_SECURITY_REQUIRE_ENCRYPTED_PASSWORDS = False
+GEOCAM_UTIL_SECURITY_LOGIN_REQUIRED_BY_DEFAULT = True
+
+# NOTE: Configuration below is an example for a production server.  Uncomment and tune
+#       for your production config as needed.  Note that the email backend line MUST be
+#       uncommented for outgoing email to actually get sent.  By default it is just
+#       written to a file in /tmp (see siteSettings.py).
