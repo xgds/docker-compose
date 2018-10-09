@@ -1,4 +1,4 @@
-django==1.11.0
+django==1.11.15
 django-pipeline
 django-compressor
 pyScss
