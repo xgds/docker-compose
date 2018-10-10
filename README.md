@@ -31,6 +31,7 @@ docker exec -it xgdsdockercompose_xgds_1 bash
     cd /root/xgds_subsea
     ./manage.py prep
     ./manage.py prepnpm
+    ./manage.py createsuperuser
     apachectl restart
     exit
 ```
