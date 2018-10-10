@@ -25,7 +25,8 @@ RUN  apt-get install -y \
      libvips-dev \
      python-gi   \
      gir1.2-vips-8.0 \
-     libgif-dev
+     libgif-dev \
+     imagemagick
 
 WORKDIR /root
 RUN  git clone https://github.com/xgds/xgds_subsea
