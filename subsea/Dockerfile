@@ -71,7 +71,8 @@ RUN  /sbin/my_init & \
      ./manage.py prep && \
      ./manage.py prepnpm && \
      ./manage.py prepmigrations && \
-     ./manage.py migrate
+     ./manage.py migrate && \
+     ./manage.py prepfixtures
 
 RUN  mkdir /home/xgds && \
      ln -s /root/xgds_subsea /home/xgds/xgds_subsea
