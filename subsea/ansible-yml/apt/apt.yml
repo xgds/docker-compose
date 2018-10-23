@@ -1,0 +1,24 @@
+apt_package_list:
+    - git
+    - sudo
+    - python
+    - python-pip
+    - apache2
+    - libapache2-mod-wsgi
+    - mariadb-server
+    - mariadb-client
+    - python-mysqldb
+    - libmariadb-client-lgpl-dev
+    - ansible
+    - python-gdal
+    - memcached
+    - libmemcached-tools
+    - libmemcached-dev
+    - zlib1g-dev
+    - libvips-dev
+    - python-gi
+    - gir1.2-vips-8.0
+    - libgif-dev
+    - imagemagick
+
+

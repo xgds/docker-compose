@@ -2,14 +2,27 @@ version: "2.0"
 services:
   xgds:
     build: ./subsea
-    ports:
-      - "222:22"
+    depends_on:
+      - mysql
+        
     # ===================================
     # if you want to develop locally, 
     # uncomment the two lines below
     # ===================================
     # volumes:
-    #   - ./xgds_subsea:/root/xgds_subsea
+    #   - /usr/local/home/kalshari/repositories/xgds_local:/root/xgds_subsea
+    
+    # ===================================
+    # use this command for debugging; this
+    # will bypass the startup.sh script
+    # ===================================
+    # command: tail -f /dev/null
+    
+
+  mysql:
+    build: ./mysql
+    ports:
+      - "3306:3306"
 
   nginx:
     build: ./nginx
@@ -23,7 +36,7 @@ services:
   geoserver:
     image: kartoza/geoserver:2.13.0
     logging:
-      driver: none
+       driver: none
     volumes:
       - ./geoserver-data:/opt/geoserver/data_dir
     ports:
@@ -38,3 +51,5 @@ services:
       - OPTIMIZE_LINE_WIDTH=false
       - FOOTPRINTS_DATA_DIR=/opt/footprints_dir
       - GEOWEBCACHE_CACHE_DIR=/opt/geoserver/data_dir/gwc
+
+

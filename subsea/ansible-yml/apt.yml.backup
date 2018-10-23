@@ -1,0 +1,36 @@
+apt_package_list:
+    - openssh-server
+    - emacs-nox
+    - yaml-mode
+    - screen
+    - python2.7
+    - build-essential
+    - ntp
+    - nfs-common
+    - python-dev
+    - python-imaging
+    - python-scipy
+    - pylint
+    - git
+    - libevent-dev
+    - python-setuptools
+    - python-pip
+    - subversion
+    - gkermit
+    - couchdb
+    - libproj-dev
+    - pkg-config
+    - python-matplotlib
+    - ack-grep
+    - python-lxml
+    - iputils-ping
+    - libcairo2-dev
+    - libjpeg8-dev
+    - libpango1.0-dev
+    - libgif-dev
+    - imagemagick
+    - libvips-dev
+    - python-gi
+    - gir1.2-vips-8.0
+
+

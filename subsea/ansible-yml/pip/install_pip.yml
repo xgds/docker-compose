@@ -1,0 +1,13 @@
+- hosts: 127.0.0.1
+  connection: local
+
+  tasks:
+  - include_vars:
+      file: ./pip.yml
+      name: pip
+  - pip:
+      name: pip
+      state: latest
+  - pip:
+      name: "{{ pip['pip_package_list'] }}"
+

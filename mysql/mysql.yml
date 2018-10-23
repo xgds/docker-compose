@@ -42,15 +42,10 @@
   - name: Update MySQL root password for all root accounts
     mysql_user:
       name: "root"
-      host: "{{ item }}"
+      host: "%"
       password: "{{ db_password | default('') }}"
       state: present
       priv: '*.*:ALL,GRANT'
-    with_items:
-      - 127.0.0.1
-      - ::1
-      - localhost
-      - xgds
 
   - name: Create empty xGDS database
     mysql_db:

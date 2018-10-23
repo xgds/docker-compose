@@ -1,0 +1,11 @@
+- hosts: 127.0.0.1
+  connection: local
+
+  tasks:
+  - include_vars:
+      file: ./apt.yml
+      name: apt
+  - apt:
+      name: "{{ apt['apt_package_list'] }}"
+
+
