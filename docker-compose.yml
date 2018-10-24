@@ -1,7 +1,11 @@
 version: "2.0"
 services:
   xgds:
-    build: ./subsea
+    build:
+      context:    ./subsea
+      dockerfile: Dockerfile
+      args:
+        - BING_MAPS_API_KEY=my-super-secret-key
     depends_on:
       - mysql
         
@@ -17,7 +21,6 @@ services:
     # will bypass the startup.sh script
     # ===================================
     # command: tail -f /dev/null
-    
 
   mysql:
     build: ./mysql
