@@ -25,6 +25,9 @@ RUN cd  xgds_subsea && \
 RUN cd /root/xgds_subsea && \
     python ./management/bootstrap.py --yes genSourceme genSettings
 
+ARG BING_MAPS_API_KEY
+ENV BING_MAPS_API_KEY "$BING_MAPS_API_KEY"
+
 COPY . /
 WORKDIR /ansible-yml
 RUN ansible-playbook --connection=local apache.yml

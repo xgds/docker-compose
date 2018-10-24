@@ -17,7 +17,7 @@ source_root: "{{ user_source_root | default(ansible_user_dir, true) }}"
 mysql_host: mysql
 mysql_user: root
 db_password: password
-bing_maps_api_key: ""
+bing_maps_api_key: "{{ lookup('env', 'BING_MAPS_API_KEY') }}"
 django_superuser: xgds
 django_superuser_password: xgds
 xgds_sitename: subsea
