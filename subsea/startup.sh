@@ -5,4 +5,5 @@ find . -path "*/migrations/*.pyc"  -delete && \
 ./manage.py prepmigrations && \
 ./manage.py migrate && \
 exec /usr/sbin/apachectl -D FOREGROUND
+tail -f /var/logs/apache2/error.log
 
