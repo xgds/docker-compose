@@ -9,13 +9,15 @@ services:
         - BING_MAPS_API_KEY=my-super-secret-key
     depends_on:
       - mysql
+      - couchdb
+      - redis
         
     # ===================================
     # if you want to develop locally, 
     # uncomment the two lines below
     # ===================================
     # volumes:
-    #  - /Users/tecohen/Work/xGDS/xgds_subsea:/root/xgds_subsea
+    #  - /usr/local/home/kalshari/repositories/xgds_local:/root/xgds_subsea
     
     # ===================================
     # use this command for debugging; this

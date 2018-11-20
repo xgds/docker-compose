@@ -1,3 +1,8 @@
+curl -X PUT http://couchdb:5984/_users
+curl -X PUT http://couchdb:5984/_replicator
+curl -X PUT http://couchdb:5984/_global_changes
+curl -X PUT http://couchdb:5984/subsea-file-store
+
 cd /root/xgds_subsea && \
 find . -path "*/migrations/*.py" -not -name "__init__.py" -delete && \
 find . -path "*/migrations/*.pyc"  -delete && \
