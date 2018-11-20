@@ -20,5 +20,7 @@ apt_package_list:
     - gir1.2-vips-8.0
     - libgif-dev
     - imagemagick
+    - vim
+    - libav-tools
 
 
