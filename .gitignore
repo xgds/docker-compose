@@ -1,0 +1,4 @@
+portainer_data/config.json
+portainer_data/portainer.db
+portainer_data/portainer.key
+portainer_data/portainer.pub

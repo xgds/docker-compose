@@ -1,6 +1,7 @@
 version: "2.0"
 services:
   xgds:
+    container_name: docker-compose-xgds
     build:
       context:    ./subsea
       dockerfile: Dockerfile
@@ -13,8 +14,8 @@ services:
     # if you want to develop locally, 
     # uncomment the two lines below
     # ===================================
-    # volumes:
-    #   - /usr/local/home/kalshari/repositories/xgds_local:/root/xgds_subsea
+    volumes:
+      - /Users/tecohen/Work/xGDS/xgds_subsea:/root/xgds_subsea
     
     # ===================================
     # use this command for debugging; this
@@ -23,11 +24,13 @@ services:
     # command: tail -f /dev/null
 
   mysql:
+    container_name: docker-compose-mysql
     build: ./mysql
     ports:
       - "3306:3306"
 
   nginx:
+    container_name: docker-compose-nginx
     build: ./nginx
     ports:
       - "80:80"
@@ -37,9 +40,20 @@ services:
       - geoserver
 
   geoserver:
+    container_name: docker-compose-geoserver
     build: ./geoserver
     volumes:
       - ./geoserver_data_dir:/usr/share/geoserver/data_dir
     ports:
       - "8080:8080"
     restart: on-failure
+
+  portainer:
+    container_name: docker-compose-portainer
+    image: portainer/portainer
+    command: -H unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./portainer_data:/data
+    ports:
+      - "9000:9000"

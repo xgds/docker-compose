@@ -27,11 +27,12 @@ Point your favourite editor to the repository that was cloned into `./xgds_subse
 
 ```
 docker-compose up --detach
-docker exec -it xgdsdockercompose_xgds_1 bash
+docker exec -it docker-compose-xgds bash
     cd /root/xgds_subsea
-    ./manage.py prep
     ./manage.py prepnpm
+    ./manage.py prepfixtures
     ./manage.py createsuperuser
+    ./manage.py prep
     apachectl restart
     exit
 ```
