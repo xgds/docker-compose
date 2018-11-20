@@ -51,9 +51,24 @@ services:
   portainer:
     container_name: docker-compose-portainer
     image: portainer/portainer
-    command: -H unix:///var/run/docker.sock
+    command: --admin-password '$$2y$$05$$5k0NxA4ktFHymAEnQFWoUuaPvMUmIreXw.SrKMIhtaCBf7yJnB5ya' -H unix:///var/run/docker.sock
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./portainer_data:/data
     ports:
       - "9000:9000"
+
+  redis:
+    image: bitnami/redis:latest
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    expose:
+      - 6379
+    volumes:
+      - ./redis_data:/bitnami/redis/data
+
+  couchdb:
+    image: couchdb:latest
+    ports:
+      - "5984:5984"
+
