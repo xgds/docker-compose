@@ -14,8 +14,8 @@ services:
     # if you want to develop locally, 
     # uncomment the two lines below
     # ===================================
-    volumes:
-      - /Users/tecohen/Work/xGDS/xgds_subsea:/root/xgds_subsea
+    # volumes:
+    #  - /Users/tecohen/Work/xGDS/xgds_subsea:/root/xgds_subsea
     
     # ===================================
     # use this command for debugging; this
