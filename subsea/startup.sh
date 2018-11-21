@@ -22,6 +22,7 @@ cd /root/xgds_subsea && \
 ./manage.py prepmigrations && \
 ./manage.py migrate && \
 ./manage.py prepfixtures && \
+./manage.py createsuperuser --username xgds --password xgds  --email xgds@xgds.org --noinput && \
 ./manage.py prepnpm && \
 ./manage.py prep && \
 exec /usr/sbin/apachectl -D FOREGROUND
