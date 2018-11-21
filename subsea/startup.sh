@@ -15,9 +15,10 @@ sleep 3
 echo "*** DONE SETTING UP COUCHDB ***"
 
 # TODO now the script dies somewhere here where it doesn't print stuff out, it used to work
+# since the db is persistent it is not safe to blow away migrations like this if we are repeatedly running this script
 cd /root/xgds_subsea && \
-find . -path "*/migrations/*.py" -not -name "__init__.py" -delete && \
-find . -path "*/migrations/*.pyc"  -delete && \
+#find . -path "*/migrations/*.py" -not -name "__init__.py" -delete && \
+#find . -path "*/migrations/*.pyc"  -delete && \
 ./manage.py prepmigrations && \
 ./manage.py migrate && \
 ./manage.py prepfixtures && \
