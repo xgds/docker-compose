@@ -1,23 +1,23 @@
-version: "2.0"
+version: "3.7"
 services:
   xgds:
     container_name: docker-compose-xgds
     build:
-      context:    ./subsea
+      context: ./subsea
       dockerfile: Dockerfile
       args:
         - BING_MAPS_API_KEY=my-super-secret-key
     depends_on:
       - mariadb
-#      - couchdb
+      - couchdb
 #      - redis
         
     # ===================================
     # if you want to develop locally, 
     # uncomment the two lines below
     # ===================================
-    volumes:
-      - /Users/tecohen/Work/xGDS/xgds_subsea:/root/xgds_subsea
+#    volumes:
+#      - /Users/tecohen/Work/xGDS/xgds_subsea:/root/xgds_subsea
 
     # ===================================
     # use this command for debugging; this
@@ -76,15 +76,33 @@ services:
 #      - 6379
 #    volumes:
 #      - ./redis_data:/bitnami/redis/data
-#
-#  couchdb:
-#    container_name: docker-compose-couchdb
-#    image: couchdb:latest
-#    ports:
-#      - "5984:5984"
-#    volumes:
-#      - ./couchdb_data:/opt/couchdb/data
-#      - ./couchdb_config:/opt/couchdb/etc
+
+  couchdb:
+    container_name: docker-compose-couchdb
+    image: couchdb:latest
+    ports:
+      - "127.0.0.1:5984:5984"
+    volumes:
+      - type: volume
+        source: couchdb-data
+        target: /opt/couchdb/data
+        volume:
+          nocopy: false
+      - type: volume
+        source: couchdb-config
+        target: /opt/couchdb/etc
+        volume:
+          nocopy: false
+
+volumes:
+  couchdb-data:
+    labels:
+      persistent: true
+  couchdb-config:
+    labels:
+      persistent: true
+
+
 
 
 
