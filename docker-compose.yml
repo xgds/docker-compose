@@ -8,28 +8,35 @@ services:
       args:
         - BING_MAPS_API_KEY=my-super-secret-key
     depends_on:
-      - mysql
-      - couchdb
-      - redis
+      - mariadb
+#      - couchdb
+#      - redis
         
     # ===================================
     # if you want to develop locally, 
     # uncomment the two lines below
     # ===================================
-    # volumes:
-    #  - /usr/local/home/kalshari/repositories/xgds_local:/root/xgds_subsea
-    
+    volumes:
+      - /Users/tecohen/Work/xGDS/xgds_subsea:/root/xgds_subsea
+
     # ===================================
     # use this command for debugging; this
     # will bypass the startup.sh script
     # ===================================
     # command: tail -f /dev/null
 
-  mysql:
-    container_name: docker-compose-mysql
-    build: ./mysql
+
+  mariadb:
+    container_name: docker-compose-mariadb
+    image: mariadb:latest
+    restart: always
     ports:
       - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: xgds
+      MYSQL_DATABASE: xgds_subsea
+    volumes:
+      - ./mariadb_data:/var/lib/mysql
 
   nginx:
     container_name: docker-compose-nginx
@@ -45,7 +52,7 @@ services:
     container_name: docker-compose-geoserver
     build: ./geoserver
     volumes:
-      - ./geoserver_data_dir:/usr/share/geoserver/data_dir
+      - ./geoserver_data:/usr/share/geoserver/data_dir
     ports:
       - "8080:8080"
     restart: on-failure
@@ -60,17 +67,24 @@ services:
     ports:
       - "9000:9000"
 
-  redis:
-    image: bitnami/redis:latest
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-    expose:
-      - 6379
-    volumes:
-      - ./redis_data:/bitnami/redis/data
+#  redis:
+#    container_name: docker-compose-redis
+#    image: bitnami/redis:latest
+#    environment:
+#      - ALLOW_EMPTY_PASSWORD=yes
+#    expose:
+#      - 6379
+#    volumes:
+#      - ./redis_data:/bitnami/redis/data
+#
+#  couchdb:
+#    container_name: docker-compose-couchdb
+#    image: couchdb:latest
+#    ports:
+#      - "5984:5984"
+#    volumes:
+#      - ./couchdb_data:/opt/couchdb/data
+#      - ./couchdb_config:/opt/couchdb/etc
 
-  couchdb:
-    image: couchdb:latest
-    ports:
-      - "5984:5984"
+
 
