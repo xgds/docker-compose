@@ -22,5 +22,6 @@ apt_package_list:
     - imagemagick
     - vim
     - libav-tools
+    - libjpeg8-dev
 
 

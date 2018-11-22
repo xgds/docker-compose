@@ -14,6 +14,11 @@ sleep 3
 
 echo "*** DONE SETTING UP COUCHDB ***"
 
+echo "*** SETTING UP VIPS ***"
+RUN mkdir -p /usr/lib/python2.7/dist-packages/gi/overrides
+RUN curl -s https://raw.githubusercontent.com/jcupitt/libvips/8.4/python/packages/gi/overrides/Vips.py > /usr/lib/python2.7/dist-packages/gi/overrides/Vips.py
+echo "*** DONE SETTING UP VIPS ***"
+
 # TODO now the script dies somewhere here where it doesn't print stuff out, it used to work
 # since the db is persistent it is not safe to blow away migrations like this if we are repeatedly running this script
 cd /root/xgds_subsea && \
