@@ -67,15 +67,16 @@ services:
     ports:
       - "9000:9000"
 
-#  redis:
-#    container_name: docker-compose-redis
-#    image: bitnami/redis:latest
-#    environment:
-#      - ALLOW_EMPTY_PASSWORD=yes
-#    expose:
-#      - 6379
-#    volumes:
-#      - ./redis_data:/bitnami/redis/data
+  redis:
+    container_name: docker-compose-redis
+    image: bitnami/redis:5.0.2
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    expose:
+      - 6379
+    volumes:
+      - redis-data:/bitnami/redis
 
   couchdb:
     container_name: docker-compose-couchdb
@@ -101,8 +102,6 @@ volumes:
   couchdb-config:
     labels:
       persistent: true
-
-
-
-
-
+  redis-data:
+    labels:
+      persistent: true
