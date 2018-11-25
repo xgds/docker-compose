@@ -26,7 +26,7 @@
 
     - name: create apache config file
       template:
-        src:  /xgds-apache-config.j2
+        src:  ./xgds-apache-config.j2
         dest: /etc/apache2/sites-available/xgds_{{xgds_sitename}}.conf
       when: base_only is not defined
 

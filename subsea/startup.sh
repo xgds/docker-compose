@@ -19,17 +19,20 @@ RUN mkdir -p /usr/lib/python2.7/dist-packages/gi/overrides
 RUN curl -s https://raw.githubusercontent.com/jcupitt/libvips/8.4/python/packages/gi/overrides/Vips.py > /usr/lib/python2.7/dist-packages/gi/overrides/Vips.py
 echo "*** DONE SETTING UP VIPS ***"
 
+# Use the follow two commands if you get errors from the migration scripts below
+# find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
+# find . -path "*/migrations/*.pyc"  -delete
+
 # TODO now the script dies somewhere here where it doesn't print stuff out, it used to work
 # since the db is persistent it is not safe to blow away migrations like this if we are repeatedly running this script
 cd /root/xgds_subsea && \
-#find . -path "*/migrations/*.py" -not -name "__init__.py" -delete && \
-#find . -path "*/migrations/*.pyc"  -delete && \
 ./manage.py prepmigrations && \
 ./manage.py migrate && \
 ./manage.py prepfixtures && \
-./manage.py createsuperuser --username xgds --password xgds  --email xgds@xgds.org --noinput && \
+# TODO we cannot use createsuperuser with --password
+# ./manage.py createsuperuser --username xgds --password xgds  --email xgds@xgds.org --noinput && \
 ./manage.py prepnpm && \
 ./manage.py prep && \
 exec /usr/sbin/apachectl -D FOREGROUND
-tail -f /var/logs/apache2/error.log
+tail -f /var/log/apache2/error.log
 
