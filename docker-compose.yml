@@ -10,14 +10,14 @@ services:
     depends_on:
       - mariadb
       - couchdb
-#      - redis
-        
+      - redis
+
     # ===================================
-    # if you want to develop locally, 
+    # if you want to develop locally,
     # uncomment the two lines below
     # ===================================
-#    volumes:
-#      - /Users/tecohen/Work/xGDS/xgds_subsea:/root/xgds_subsea
+    volumes:
+      - /home/kalshari/repositories/xgds_local:/root/xgds_subsea
 
     # ===================================
     # use this command for debugging; this
@@ -69,14 +69,11 @@ services:
 
   redis:
     container_name: docker-compose-redis
-    image: bitnami/redis:5.0.2
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    image: redis:5-alpine
     expose:
       - 6379
     volumes:
-      - redis-data:/bitnami/redis
+      - redis-data:/data
 
   couchdb:
     container_name: docker-compose-couchdb
