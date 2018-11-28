@@ -14,17 +14,17 @@ services:
 
     # ===================================
     # if you want to develop locally,
-    # uncomment the two lines below
+    # uncomment the two lines below, making sure to run:
+    # export XGDS_WORKING_DIRECTORY=/path/to/xgds
     # ===================================
     volumes:
-      - /home/kalshari/repositories/xgds_local:/root/xgds_subsea
+      - ${XGDS_WORKING_DIRECTORY}:/root/xgds_subsea
 
     # ===================================
     # use this command for debugging; this
     # will bypass the startup.sh script
     # ===================================
     # command: tail -f /dev/null
-
 
   mariadb:
     container_name: docker-compose-mariadb
@@ -36,7 +36,7 @@ services:
       MYSQL_ROOT_PASSWORD: xgds
       MYSQL_DATABASE: xgds_subsea
     volumes:
-      - ./mariadb_data:/var/lib/mysql
+      - mariadb-data:/var/lib/mysql
 
   nginx:
     container_name: docker-compose-nginx
@@ -52,7 +52,7 @@ services:
     container_name: docker-compose-geoserver
     build: ./geoserver
     volumes:
-      - ./geoserver_data:/usr/share/geoserver/data_dir
+      - geoserver-data:/usr/share/geoserver/data_dir
     ports:
       - "8080:8080"
     restart: on-failure
@@ -60,10 +60,14 @@ services:
   portainer:
     container_name: docker-compose-portainer
     image: portainer/portainer
+    # ===================================
+    # username: admin
+    # password: xgds
+    # ===================================
     command: --admin-password '$$2y$$05$$5k0NxA4ktFHymAEnQFWoUuaPvMUmIreXw.SrKMIhtaCBf7yJnB5ya' -H unix:///var/run/docker.sock
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./portainer_data:/data
+      - portainer-data:/data
     ports:
       - "9000:9000"
 
@@ -100,5 +104,14 @@ volumes:
     labels:
       persistent: true
   redis-data:
+    labels:
+      persistent: true
+  geoserver-data:
+    labels:
+      persistent: true
+  mariadb-data:
+    labels:
+      persistent: true
+  portainer-data:
     labels:
       persistent: true
