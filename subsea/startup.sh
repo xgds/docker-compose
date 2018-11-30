@@ -7,10 +7,10 @@ echo "*** SETTING UP COUCHDB ***"
 # for a certain number of seconds and repeat a certain number of times.
 sleep 3
 
-#curl -X PUT http://couchdb:5984/_users
-#curl -X PUT http://couchdb:5984/_replicator
-#curl -X PUT http://couchdb:5984/_global_changes
-#curl -X PUT http://couchdb:5984/subsea-file-store
+curl -X PUT http://couchdb:5984/_users
+curl -X PUT http://couchdb:5984/_replicator
+curl -X PUT http://couchdb:5984/_global_changes
+curl -X PUT http://couchdb:5984/subsea-file-store
 
 echo "*** DONE SETTING UP COUCHDB ***"
 
@@ -29,8 +29,7 @@ cd /root/xgds_subsea && \
 ./manage.py prepmigrations && \
 ./manage.py migrate && \
 ./manage.py prepfixtures && \
-# TODO we cannot use createsuperuser with --password
-# ./manage.py createsuperuser --username xgds --password xgds  --email xgds@xgds.org --noinput && \
+./manage.py createsuperuser --username xgds --password xgds  --email xgds@xgds.org --noinput --skip && \
 ./manage.py prepnpm && \
 ./manage.py prep && \
 exec /usr/sbin/apachectl -D FOREGROUND
