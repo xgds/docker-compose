@@ -7,6 +7,7 @@ services:
       dockerfile: Dockerfile
       args:
         - BING_MAPS_API_KEY=my-super-secret-key
+    hostname: xgds
     depends_on:
       - mariadb
       - couchdb
@@ -30,6 +31,7 @@ services:
     container_name: docker-compose-mariadb
     image: mariadb:latest
     restart: always
+    hostname: mariadb
     ports:
       - "3306:3306"
     environment:
@@ -52,6 +54,7 @@ services:
   geoserver:
     container_name: docker-compose-geoserver
     build: ./geoserver
+    hostname: geoserver
     volumes:
       - geoserver-data:/usr/share/geoserver/data_dir
     ports:
@@ -75,6 +78,7 @@ services:
   redis:
     container_name: docker-compose-redis
     image: redis:5-alpine
+    hostname: redis
     expose:
       - 6379
     volumes:
@@ -83,6 +87,7 @@ services:
   couchdb:
     container_name: docker-compose-couchdb
     image: couchdb:latest
+    hostname: couchdb
     ports:
       - "127.0.0.1:5984:5984"
     volumes:
