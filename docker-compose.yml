@@ -41,6 +41,7 @@ services:
   nginx:
     container_name: docker-compose-nginx
     build: ./nginx
+    hostname: nginx
     ports:
       - "80:80"
       - "443:443"
