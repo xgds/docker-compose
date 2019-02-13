@@ -19,9 +19,17 @@ RUN mkdir -p /usr/lib/python2.7/dist-packages/gi/overrides
 RUN curl -s https://raw.githubusercontent.com/jcupitt/libvips/8.4/python/packages/gi/overrides/Vips.py > /usr/lib/python2.7/dist-packages/gi/overrides/Vips.py
 echo "*** DONE SETTING UP VIPS ***"
 
+echo "*** STARTING UP PYRAPTORD"
+RUN /etc/init.d/pyraptord start
+echo "*** DONE STARTING UP PYRAPTORD"
+
 # Use the follow two commands if you get errors from the migration scripts below
 # find . -path "*/migrations/*.py" -not -name "__init__.py" -delete
 # find . -path "*/migrations/*.pyc"  -delete
+
+# clean out the apache pid in case we had an ugly death before
+RUN rm /var/run/apache2/apache2.pid
+RUN rm /var/run/apache2/.sock
 
 # TODO now the script dies somewhere here where it doesn't print stuff out, it used to work
 # since the db is persistent it is not safe to blow away migrations like this if we are repeatedly running this script

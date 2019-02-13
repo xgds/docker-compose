@@ -22,6 +22,8 @@ RUN cd  xgds_subsea && \
     git submodule init &&   \
     git submodule update
 
+COPY ./xgds_subsea/pyraptord /etc/init.d/
+
 RUN cd /root/xgds_subsea && \
     python ./management/bootstrap.py --yes genSourceme genSettings
 

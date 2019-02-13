@@ -69,5 +69,6 @@ pip_package_list:
   - utm
   - openpyxl
   - ffmpeg-python
+  - IPython
 
 
