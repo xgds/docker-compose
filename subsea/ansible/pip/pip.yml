@@ -39,7 +39,7 @@ pip_package_list:
   - flask-sse
   - qrcode
   - git+https://github.com/xgds/spc.git
-  - pandas
+  - pandas==0.23.4
   - SQLAlchemy
   - django-deepzoom
   - django-datatables-view==1.14.0
