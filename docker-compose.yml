@@ -122,9 +122,6 @@ volumes:
   portainer-data:
     labels:
       persistent: true
-  subsea-py27-sys-packages:
-    labels:
-      persistent: true
   subsea-usr-local:
     labels:
       persistent: true

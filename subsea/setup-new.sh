@@ -5,7 +5,7 @@ echo "*** SETTING UP COUCHDB ***"
 # TODO couch takes a while to spin up and we have been unable to get this to work from this script
 # ideally put some logic in to get the result from the first curl and if it fails then have a loop where we sleep
 # for a certain number of seconds and repeat a certain number of times.
-sleep 3
+sleep 6
 
 curl -X PUT http://couchdb:5984/_users
 curl -X PUT http://couchdb:5984/_replicator
