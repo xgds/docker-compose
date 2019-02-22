@@ -6,7 +6,7 @@ services:
       context: ./subsea
       dockerfile: Dockerfile
       args:
-        - BING_MAPS_API_KEY=my-super-secret-key
+        - BING_MAPS_API_KEY=${BING_MAPS_API_KEY}
     hostname: xgds
     depends_on:
       - mariadb
@@ -15,11 +15,12 @@ services:
 
     # ===================================
     # if you want to develop locally,
-    # uncomment the two lines below, making sure to run:
+    # uncomment the four lines below, making sure to run:
     # export XGDS_WORKING_DIRECTORY=/path/to/xgds
     # ===================================
     volumes:
       - ${XGDS_WORKING_DIRECTORY}:/root/xgds_subsea
+      - subsea-usr-local:/usr/local
 
     # ===================================
     # use this command for debugging; this
@@ -33,7 +34,7 @@ services:
     restart: always
     hostname: mariadb
     ports:
-      - "3306:3306"
+      - "127.0.0.1:3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: xgds
       MYSQL_DATABASE: xgds_subsea
@@ -45,8 +46,8 @@ services:
     build: ./nginx
     hostname: nginx
     ports:
-      - "80:80"
-      - "443:443"
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
     depends_on:
       - xgds
       - geoserver
@@ -58,7 +59,7 @@ services:
     volumes:
       - geoserver-data:/usr/share/geoserver/data_dir
     ports:
-      - "8080:8080"
+      - "127.0.0.1:8080:8080"
     restart: on-failure
 
   portainer:
@@ -73,7 +74,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer-data:/data
     ports:
-      - "9000:9000"
+      - "127.0.0.1:9000:9000"
 
   redis:
     container_name: docker-compose-redis
@@ -119,5 +120,11 @@ volumes:
     labels:
       persistent: true
   portainer-data:
+    labels:
+      persistent: true
+  subsea-py27-sys-packages:
+    labels:
+      persistent: true
+  subsea-usr-local:
     labels:
       persistent: true

@@ -20,9 +20,9 @@ WORKDIR /root
 RUN git clone https://github.com/xgds/xgds_subsea
 RUN cd  xgds_subsea && \
     git submodule init &&   \
-    git submodule update
+    git submodule foreach git checkout master
 
-COPY ./xgds_subsea/pyraptord /etc/init.d/
+RUN cd /etc/init.d && ln -s /root/xgds_subsea/pyraptord .
 
 RUN cd /root/xgds_subsea && \
     python ./management/bootstrap.py --yes genSourceme genSettings
@@ -37,6 +37,9 @@ RUN ansible-playbook --connection=local xgds.yml
 
 RUN chmod -R 755 /root
 
+RUN mkdir -p /usr/lib/python2.7/dist-packages/gi/overrides
+RUN curl -s https://raw.githubusercontent.com/jcupitt/libvips/8.4/python/packages/gi/overrides/Vips.py > /usr/lib/python2.7/dist-packages/gi/overrides/Vips.py
+
 RUN mkdir /home/xgds && \
     ln -s /root/xgds_subsea /home/xgds/xgds_subsea
 
@@ -45,4 +48,6 @@ RUN apt-get clean && \
 
 WORKDIR /
 COPY startup.sh startup.sh
+COPY resume.sh resume.sh
+COPY setup-new.sh setup-new.sh
 CMD sh /startup.sh

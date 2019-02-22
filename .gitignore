@@ -2,3 +2,5 @@ portainer_data/
 geoserver_data/
 mariadb_data/
 couchdb_data/
+*~
+.DS_Store
