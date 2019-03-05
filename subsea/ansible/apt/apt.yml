@@ -23,5 +23,6 @@ apt_package_list:
     - vim
     - libav-tools
     - libjpeg8-dev
+    - unzip
 
 

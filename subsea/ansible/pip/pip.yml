@@ -70,5 +70,6 @@ pip_package_list:
   - openpyxl
   - ffmpeg-python
   - IPython
+  - pydevd
 
 
