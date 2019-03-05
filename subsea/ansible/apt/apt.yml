@@ -10,6 +10,7 @@ apt_package_list:
     - python-mysqldb
     - libmariadb-client-lgpl-dev
     - ansible
+    - gdal-bin
     - python-gdal
     - memcached
     - libmemcached-tools
