@@ -1,7 +1,6 @@
 version: "3.7"
 services:
   xgds:
-    container_name: xgds-subsea
     image: xgds-subsea:current
     hostname: xgds-subsea
     depends_on:
@@ -27,10 +26,9 @@ services:
         window: 60s
       placement:
         constraints:
-          - node.hostname == container.xgds.org
+          - node.hostname == container-ship
 
   mariadb:
-    container_name: mariadb-subsea
     image: mariadb:latest
     hostname: mariadb-subsea
     environment:
@@ -48,10 +46,9 @@ services:
         window: 60s
       placement:
         constraints:
-          - node.hostname == container.xgds.org
+          - node.hostname == container-ship
 
   geoserver:
-    container_name: geoserver-subsea
     image: xgds-geoserver:current
     hostname: geoserver-subsea
     volumes:
@@ -66,14 +63,11 @@ services:
         window: 60s
       placement:
         constraints:
-          - node.hostname == container.xgds.org
+          - node.hostname == container-ship
 
   redis:
-    container_name: redis-subsea
     image: redis:5-alpine
     hostname: redis
-    expose:
-      - 6379
     volumes:
       - redis-data:/data
     networks:
@@ -86,10 +80,9 @@ services:
         window: 60s
       placement:
         constraints:
-          - node.hostname == container.xgds.org
+          - node.hostname == container-ship
 
   couchdb:
-    container_name: couchdb-subsea
     image: couchdb:latest
     hostname: couchdb-subsea
     volumes:
@@ -113,24 +106,29 @@ services:
         window: 60s
       placement:
         constraints:
-          - node.hostname == container.xgds.org
+          - node.hostname == container-ship
 
 volumes:
   couchdb-data:
     labels:
-      persistent: true
+      persistent: 1
   couchdb-config:
     labels:
-      persistent: true
+      persistent: 1
   redis-data:
     labels:
-      persistent: true
+      persistent: 1
   geoserver-data:
     labels:
-      persistent: true
+      persistent: 1
   mariadb-data:
     labels:
-      persistent: true
+      persistent: 1
   usr-local:
     labels:
-      persistent: true
+      persistent: 1
+
+networks:
+  xgds-docker-net:
+    external: true
+    
