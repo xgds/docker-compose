@@ -16,7 +16,7 @@ services:
     volumes:
       - ${XGDS_HOME_DIRECTORY}:/root
       - usr-local:/usr/local
-      - /mnt/DatOptic16:/mnt/DatOptic16
+      - /mnt/DatOptic16:/mnt
 
     networks:
       - xgds-docker-net
