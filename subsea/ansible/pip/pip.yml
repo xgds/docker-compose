@@ -71,5 +71,6 @@ pip_package_list:
   - ffmpeg-python
   - IPython
   - pydevd
+  - django[argon2]
 
 
