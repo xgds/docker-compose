@@ -1,0 +1,134 @@
+version: "3.7"
+services:
+  xgds:
+    image: xgds-subsea:current
+    hostname: xgds-subsea
+    depends_on:
+      - mariadb
+      - couchdb
+      - redis
+
+    # ===================================
+    # if you want to develop locally,
+    # uncomment the four lines below, making sure to run:
+    # export XGDS_WORKING_DIRECTORY=/path/to/xgds
+    # ===================================
+    volumes:
+      - ${XGDS_HOME_DIRECTORY}:/root
+      - usr-local:/usr/local
+    networks:
+      - xgds-docker-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 5
+        window: 60s
+      placement:
+        constraints:
+          - node.hostname == container-ship
+
+  mariadb:
+    image: mariadb:latest
+    hostname: mariadb-subsea
+    environment:
+      MYSQL_ROOT_PASSWORD: xgds
+      MYSQL_DATABASE: xgds_subsea
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - xgds-docker-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 5
+        window: 60s
+      placement:
+        constraints:
+          - node.hostname == container-ship
+
+  geoserver:
+    image: xgds-geoserver:current
+    hostname: geoserver-subsea
+    volumes:
+      - geoserver-data:/usr/share/geoserver/data_dir
+    networks:
+      - xgds-docker-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 5
+        window: 60s
+      placement:
+        constraints:
+          - node.hostname == container-ship
+
+  redis:
+    image: redis:5-alpine
+    hostname: redis
+    volumes:
+      - redis-data:/data
+    networks:
+      - xgds-docker-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 5
+        window: 60s
+      placement:
+        constraints:
+          - node.hostname == container-ship
+
+  couchdb:
+    image: couchdb:latest
+    hostname: couchdb-subsea
+    volumes:
+      - type: volume
+        source: couchdb-data
+        target: /opt/couchdb/data
+        volume:
+          nocopy: false
+      - type: volume
+        source: couchdb-config
+        target: /opt/couchdb/etc
+        volume:
+          nocopy: false
+    networks:
+      - xgds-docker-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 5
+        window: 60s
+      placement:
+        constraints:
+          - node.hostname == container-ship
+
+volumes:
+  couchdb-data:
+    labels:
+      persistent: 1
+  couchdb-config:
+    labels:
+      persistent: 1
+  redis-data:
+    labels:
+      persistent: 1
+  geoserver-data:
+    labels:
+      persistent: 1
+  mariadb-data:
+    labels:
+      persistent: 1
+  usr-local:
+    labels:
+      persistent: 1
+
+networks:
+  xgds-docker-net:
+    external: true
+    
