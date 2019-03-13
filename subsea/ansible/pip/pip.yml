@@ -72,5 +72,6 @@ pip_package_list:
   - IPython
   - pydevd
   - django[argon2]
+  - validate_email
 
 
