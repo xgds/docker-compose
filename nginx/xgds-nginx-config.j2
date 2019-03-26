@@ -40,7 +40,7 @@ server {
     proxy_buffering           off;
     proxy_cache               off;
     proxy_pass                http://xgds:{{ sse_port }};
-    proxy_read_timeout        90;
+    proxy_read_timeout        24h;
     proxy_redirect            http://xgds:{{ sse_port }} http://xgds;
   }
 }
