@@ -73,5 +73,6 @@ pip_package_list:
   - pydevd
   - django[argon2]
   - validate_email
+  - django-redis-cache
 
 
