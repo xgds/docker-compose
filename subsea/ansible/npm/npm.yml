@@ -3,5 +3,6 @@ npm_package_list:
   - {name: 'yuglify', state: 'latest'}
   - {name: 'babel-cli', state: 'latest'}  
   - {name: 'webpack', state: 'latest'}
+  - {name: 'grunt-cli', state: 'latest'}
 
 
