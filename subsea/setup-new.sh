@@ -29,6 +29,9 @@ rm -f /var/run/apache2/.sock
 mkdir -p /root/xgds_subsea/data/xgds_image/deepzoom_images
 chown www-data.www-data /root/xgds_subsea/data/xgds_image/deepzoom_images
 
+mkdir -p /root/xgds_subsea/data/xgds_map_server/geoTiff/temp
+chown www-data.www-data /root/xgds_subsea/data/xgds_map_server/geoTiff/temp
+
 # TODO now the script dies somewhere here where it doesn't print stuff out, it used to work
 # since the db is persistent it is not safe to blow away migrations like this if we are repeatedly running this script
 cd /root/xgds_subsea && \

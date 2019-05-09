@@ -8,6 +8,8 @@ services:
       args:
         - BING_MAPS_API_KEY=${BING_MAPS_API_KEY}
     hostname: xgds
+    ports:
+      - "127.0.0.1:8181:8181"
     depends_on:
       - mariadb
       - couchdb
