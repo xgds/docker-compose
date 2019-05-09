@@ -37,7 +37,12 @@ services:
       - "127.0.0.1:3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: xgds
-      MYSQL_DATABASE: xgds_subsea
+#      MYSQL_DATABASE: xgds_subsea
+    entrypoint:
+      sh -c "
+      echo 'CREATE DATABASE IF NOT EXISTS xgds_subsea; CREATE DATABASE IF NOT EXISTS owa_subsea;' > /docker-entrypoint-initdb.d/init.sql;
+      /usr/local/bin/docker-entrypoint.sh --character-set-server=latin1 --collation-server=latin1_general_ci
+      "
     volumes:
       - mariadb-data:/var/lib/mysql
 
@@ -51,6 +56,7 @@ services:
     depends_on:
       - xgds
       - geoserver
+      - owa
 
   geoserver:
     container_name: docker-compose-geoserver
@@ -61,6 +67,21 @@ services:
     ports:
       - "127.0.0.1:8080:8080"
     restart: on-failure
+
+  owa:
+    # TODO figure out ports and data store and configuration
+    container_name: docker-compose-owa
+    image: vladk1m0/docker-owa:latest
+    hostname: owa
+    volumes:
+      - owa-data:/var/www/html
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+    depends_on:
+      - mariadb
 
   portainer:
     container_name: docker-compose-portainer
@@ -123,5 +144,8 @@ volumes:
     labels:
       persistent: true
   subsea-usr-local:
+    labels:
+      persistent: true
+  owa-data:
     labels:
       persistent: true
