@@ -71,9 +71,12 @@ services:
     restart: on-failure
 
   owa:
-    # TODO figure out ports and data store and configuration
     container_name: docker-compose-owa
-    image: vladk1m0/docker-owa:latest
+    build:
+      context: ./owa
+      dockerfile: Dockerfile
+      args:
+        OWA_VERSION: 20190509-xgds
     hostname: owa
     volumes:
       - owa-data:/var/www/html
