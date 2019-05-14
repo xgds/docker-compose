@@ -16,10 +16,39 @@ services:
     volumes:
       - ${XGDS_HOME_DIRECTORY}:/root
       - usr-local:/usr/local
-      - /mnt/DatOptic16:/mnt/DatOptic16
+      - ${XGDS_DATA_DIRECTORY}:${XGDS_DATA_DIRECTORY}
 
     networks:
       - xgds-docker-net
+    ports:
+      - target: 13060  # HER
+        published: 13060
+        protocol: udp
+        mode: host
+      - target: 13069  # NAV
+        published: 13069
+        protocol: udp
+        mode: host
+      - target: 13065  # TEM
+        published: 13065
+        protocol: udp
+        mode: host
+      - target: 13064  # CTD
+        published: 13064
+        protocol: udp
+        mode: host
+      - target: 13067  # EVENT
+        published: 13067
+        protocol: udp
+        mode: host
+      - target: 13077  # CHAT
+        published: 13077
+        protocol: udp
+        mode: host
+      - target: 13078  # GRABHD
+        published: 13078
+        protocol: udp
+        mode: host
     deploy:
       restart_policy:
         condition: on-failure
@@ -28,7 +57,7 @@ services:
         window: 60s
       placement:
         constraints:
-          - node.hostname == container-ship
+          - node.hostname == ${LOCAL_DOCKER_HOST}
 
   mariadb:
     image: mariadb:latest
@@ -48,7 +77,7 @@ services:
         window: 60s
       placement:
         constraints:
-          - node.hostname == container-ship
+          - node.hostname == ${LOCAL_DOCKER_HOST}
 
   geoserver:
     image: xgds-geoserver:current
@@ -65,8 +94,32 @@ services:
         window: 60s
       placement:
         constraints:
-          - node.hostname == container-ship
+          - node.hostname == ${LOCAL_DOCKER_HOST}
 
+  owa:
+    image: owa:current
+    hostname: owa
+    volumes:
+      - owa-data:/var/www/html
+    networks:
+      - xgds-docker-net
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 5
+        window: 60s
+      placement:
+        constraints:
+          - node.hostname == ${LOCAL_DOCKER_HOST}
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "5"
+    depends_on:
+      - mariadb
+      
   redis:
     image: redis:5-alpine
     hostname: redis
@@ -82,7 +135,7 @@ services:
         window: 60s
       placement:
         constraints:
-          - node.hostname == container-ship
+          - node.hostname == ${LOCAL_DOCKER_HOST}
 
   couchdb:
     image: couchdb:latest
@@ -108,7 +161,7 @@ services:
         window: 60s
       placement:
         constraints:
-          - node.hostname == container-ship
+          - node.hostname == ${LOCAL_DOCKER_HOST}
 
 volumes:
   couchdb-data:
@@ -127,6 +180,9 @@ volumes:
     labels:
       persistent: 1
   usr-local:
+    labels:
+      persistent: 1
+  owa-data:
     labels:
       persistent: 1
 
