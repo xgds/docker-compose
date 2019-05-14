@@ -25,5 +25,6 @@ apt_package_list:
     - libav-tools
     - libjpeg8-dev
     - unzip
+    - iputils-ping
 
 
