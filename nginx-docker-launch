@@ -1,0 +1,9 @@
+#!/bin/bash
+
+docker run --name nginx \
+--mount type=bind,source=/usr/local/www,destination=/usr/local/www,readonly \
+--mount type=bind,source=/usr/local/nginx/conf,destination=/etc/nginx,readonly \
+--mount type=bind,source=/usr/local/nginx,destination=/usr/local/nginx,readonly \
+--mount type=bind,source=/usr/local/ssl,destination=/usr/local/ssl,readonly \
+--mount type=bind,source=/usr/local/nginx/log,destination=/var/log/nginx \
+--net xgds-docker-net --restart always -p80:80 -p443:443 -d nginx:stable
