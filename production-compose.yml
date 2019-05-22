@@ -87,7 +87,7 @@ services:
     image: xgds-geoserver:current
     hostname: geoserver-subsea
     volumes:
-      - geoserver-data:/usr/share/geoserver/data_dir
+      - /usr/local/geoserver/data_dir:/usr/share/geoserver/data_dir
     networks:
       - xgds-docker-net
     deploy:
