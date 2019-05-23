@@ -67,6 +67,10 @@ services:
       MYSQL_DATABASE: xgds_subsea
     volumes:
       - mariadb-data:/var/lib/mysql
+      - /usr/local/mysql/conf:/etc/mysql
+      - /usr/local/mysql/log:/var/log/mysql
+    ports:
+      - "3306:3306"
     networks:
       - xgds-docker-net
     deploy:
@@ -83,7 +87,7 @@ services:
     image: xgds-geoserver:current
     hostname: geoserver-subsea
     volumes:
-      - geoserver-data:/usr/share/geoserver/data_dir
+      - /usr/local/geoserver/data_dir:/usr/share/geoserver/data_dir
     networks:
       - xgds-docker-net
     deploy:
@@ -151,6 +155,8 @@ services:
         target: /opt/couchdb/etc
         volume:
           nocopy: false
+    ports:
+      - "5984:5984"
     networks:
       - xgds-docker-net
     deploy:
