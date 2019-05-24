@@ -13,6 +13,9 @@ RUN cd /ansible/apt && ansible-playbook --connection=local install_apt.yml
 COPY ./ansible/pip /ansible/pip
 RUN cd /ansible/pip && ansible-playbook --connection=local install_pip.yml
 
+COPY ./ansible/pip3 /ansible/pip3
+RUN cd /ansible/pip3 && ansible-playbook --connection=local install_pip3.yml
+
 COPY ./ansible/npm /ansible/npm
 RUN cd /ansible/npm && ansible-playbook --connection=local install_npm.yml
 
