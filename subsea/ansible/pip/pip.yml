@@ -75,6 +75,6 @@ pip_package_list:
   - django[argon2]
   - validate_email
   - django-redis-cache
-  - pynmea2=git+https://github.com/xgds/pynmea2.git
+  - git+https://github.com/xgds/pynmea2.git
 
 
