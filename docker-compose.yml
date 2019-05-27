@@ -39,12 +39,10 @@ services:
       - "127.0.0.1:3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: xgds
-#      MYSQL_DATABASE: xgds_subsea
     entrypoint:
       sh -c "
       echo 'CREATE DATABASE IF NOT EXISTS xgds_subsea; CREATE DATABASE IF NOT EXISTS owa_subsea;' > /docker-entrypoint-initdb.d/init.sql;
-      /usr/local/bin/docker-entrypoint.sh --character-set-server=latin1 --collation-server=latin1_general_ci
-      "
+      /usr/local/bin/docker-entrypoint.sh --character-set-server=latin1 --collation-server=latin1_general_ci"
     volumes:
       - mariadb-data:/var/lib/mysql
 
@@ -129,7 +127,32 @@ services:
         volume:
           nocopy: false
 
+  jupyter:
+    expose:
+      - 8888
+    container_name: docker-compose-jupyter
+    image: jupyter/datascience-notebook
+    volumes:
+      - jupyter-working-directory:/home/jovyan/work
+      - jupyter-datasets:/home/jovyan/work/datasets
+      - jupyter-modules:/home/jovyan/work/modules
+    # ===================================
+    # password: xgds
+    # ===================================
+    command: "start-notebook.sh \
+        --NotebookApp.password=sha1:44971bfd1274:2799896a818142ee3d84dfe2e0343d44644ad067 \
+        --NotebookApp.base_url=/jupyter"
+
 volumes:
+  jupyter-working-directory:
+    labels:
+      persistent: true
+  jupyter-datasets:
+    labels:
+      persistent: true
+  jupyter-modules:
+    labels:
+      persistent: true
   couchdb-data:
     labels:
       persistent: true
