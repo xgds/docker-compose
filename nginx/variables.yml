@@ -1,5 +1,6 @@
-apache_http_port: 8181
-nginx_geoserver_port: 8080
+apache_port: 8181
+geoserver_port: 8080
 sse_port: 9191
 jupyter_port: 8888
 owa_port: 80
+portainer_port: 9000

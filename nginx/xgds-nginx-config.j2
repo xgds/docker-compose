@@ -15,9 +15,9 @@ server {
     proxy_set_header          X-Real-IP $remote_addr;
     proxy_set_header          X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header          X-Forwarded-Proto $scheme;
-    proxy_pass                http://xgds:{{ apache_http_port }};
+    proxy_pass                http://xgds:{{ apache_port }};
     proxy_read_timeout        90;
-    proxy_redirect            http://xgds:{{ apache_http_port }} http://xgds;
+    proxy_redirect            http://xgds:{{ apache_port }} http://xgds;
   }
 
   location /geoserver/ {
@@ -25,9 +25,9 @@ server {
     proxy_set_header          X-Real-IP $remote_addr;
     proxy_set_header          X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header          X-Forwarded-Proto $scheme;
-    proxy_pass                http://geoserver:{{ nginx_geoserver_port }};
+    proxy_pass                http://geoserver:{{ geoserver_port }};
     proxy_read_timeout        90;
-    proxy_redirect            http://geoserver:{{ nginx_geoserver_port }} http://geoserver;
+    proxy_redirect            http://geoserver:{{ geoserver_port }} http://geoserver;
   }
 
   location /sse/ {
@@ -65,6 +65,16 @@ server {
     proxy_set_header Upgrade $http_upgrade;
     proxy_set_header Connection "upgrade";
     proxy_read_timeout 86400;
+  }
+
+  location /portainer/ {
+    proxy_set_header          Host $host;
+    proxy_set_header          X-Real-IP $remote_addr;
+    proxy_set_header          X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header          X-Forwarded-Proto $scheme;
+    proxy_pass                http://portainer:{{ portainer_port }}/;
+    proxy_read_timeout        90;
+    proxy_redirect            http://portainer:{{ portainer_port }} http://portainer;
   }
 }
 
